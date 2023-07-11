@@ -1,8 +1,8 @@
 
 import { Cartesian3, Color } from "cesium";
 import "./app.css";
-import { Viewer, Entity, CameraFlyTo, Primitive } from "resium";
-
+import { Viewer, Entity, CameraFlyTo, Primitive, useCesium } from "resium";
+import { Button, Popover } from 'antd';
   import {
       EllipseGeometry,
      EllipsoidSurfaceAppearance,
@@ -26,6 +26,16 @@ export default function App() {
   const appearance = new EllipsoidSurfaceAppearance({
     material: Material.fromType("Checkerboard"),
   });
+
+    // 获取Cesium Viewer对象
+    const { viewer } = useCesium();
+
+  
+    // 定义实体的点击事件监听器
+    const handleClick = (event) => {
+      console.log(1111);
+    };
+
   return (
     <div>
     <Viewer full>
@@ -38,16 +48,21 @@ export default function App() {
        <CameraFlyTo
         // {...args}
         duration={5}
-        destination={Cartesian3.fromDegrees(-100.0, 20.0, 1000)}
+        destination={Cartesian3.fromDegrees(-74, 40, 1000)}
         once={true}
       />
-       <Entity
-        // {...args}
-        name="test1"
-        position={Cartesian3.fromDegrees(-74, 40, 100)}
-        point={{ pixelSize: 15, color: Color.YELLOW }}
-        description="Normal Description"
-      />
+
+      <Popover content={"123123123"} title="Title" trigger='click'>
+        <Entity
+          // {...args}
+          name="test1"
+          position={Cartesian3.fromDegrees(-74, 40, 100)}
+          point={{ pixelSize: 15, color: Color.YELLOW }}
+          // description="Normal Description"
+          onClick={handleClick}
+        />
+      </Popover>
+     
        <Primitive geometryInstances={geometry} appearance={appearance} show={true} />
       
     </Viewer>
